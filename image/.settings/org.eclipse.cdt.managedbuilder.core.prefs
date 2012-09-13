@@ -1,0 +1,11 @@
+#Sun Apr 15 17:34:23 GMT 2007
+cdt.managedbuild.config.gnu.lib.debug.85482776/internalBuilder/enabled=false
+cdt.managedbuild.config.gnu.lib.debug.85482776/internalBuilder/ignoreErr=true
+cdt.managedbuild.config.gnu.lib.release.248863489/internalBuilder/enabled=false
+cdt.managedbuild.config.gnu.lib.release.248863489/internalBuilder/ignoreErr=true
+eclipse.preferences.version=1
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.cygwin.exe.debug.374301391=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<environment>\r\n<variable name\="CPATH" operation\="remove"/>\r\n<variable name\="CPLUS_INCLUDE_PATH" operation\="replace" value\="C\:\\opt\\Boost\\include\\boost-1_33"/>\r\n</environment>\r\n
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.704355159=<?xml version\="1.0"?>\n<environment>\n  <variable name\="CPLUS_INCLUDE_PATH" value\="/home/seppo/include" operation\="replace"/>\n  <variable name\="CPATH" value\="" operation\="remove"/>\n  <variable name\="C_INCLUDE_PATH" operation\="remove"/>\n</environment>
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.85482776=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<environment>\r\n<variable name\="CPATH" operation\="remove" value\=""/>\r\n<variable name\="C_INCLUDE_PATH" operation\="remove" value\=""/>\r\n<variable name\="CPLUS_INCLUDE_PATH" operation\="remove"/>\r\n</environment>\r\n
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.cygwin.exe.debug.374301391=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<environment>\r\n<variable name\="LIBRARY_PATH" operation\="replace" value\="C\:\\opt\\Boost\\lib"/>\r\n</environment>\r\n
+environment/project=<?xml version\="1.0"?>\n<environment/>
