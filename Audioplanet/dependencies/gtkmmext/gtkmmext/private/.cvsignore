@@ -1,0 +1,8 @@
+Makefile
+Makefile.in
+databox_p.h
+levelhold_p.h
+marked_curve_p.h
+rgb_p.h
+transparency_p.h
+

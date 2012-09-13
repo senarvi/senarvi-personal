@@ -1,0 +1,8 @@
+# This is your personal preferences file.  Any variable defined in
+# this file takes precedence over the value defined in the system-wide
+# preferences:
+#   @systemdatadir@/preferences
+#   (where ${prefix} is /usr/local)
+#
+# Most values can be set automatically within Audioplanet, but you can
+# also edit this file by hand.

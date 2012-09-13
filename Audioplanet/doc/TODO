@@ -1,0 +1,10 @@
+stereotiedoston avaus:
+lue filter.h
+
+mietip‰ seuraavaa:
+tiedoston avaajat vaativat tietyn formaatin
+input/output filtterit toimivat useilla m‰‰r‰tyill‰ formaateilla
+efekti filttereiden pit‰isi toimia (ainakin l‰hes) kaikilla formaateilla
+
+Producer tarvitsee metodin esim. setLength, jolla m‰‰ritell‰‰n
+kuinka pitk‰n p‰tk‰n se l‰hett‰‰

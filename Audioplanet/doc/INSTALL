@@ -1,0 +1,6 @@
+./configure
+make install
+
+automake
+./configure --enable-debug
+make

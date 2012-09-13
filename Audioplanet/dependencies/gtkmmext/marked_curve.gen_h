@@ -1,0 +1,197 @@
+/* $Id: marked_curve.gen_h,v 1.1 2007/07/04 07:26:39 seppo Exp $ */
+
+/* marked_curve.h
+ * 
+ * Copyright (C) 1998-1999 Paul Barton-Davis
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <gtk--/box.h>
+#include <gtk--/drawingarea.h>
+#include <gtk/gtkgamma.h>
+#include <gtk/gtkdrawingarea.h>
+#include <gtkmmext/gtkmarkedcurve.h>
+
+#include <vector>
+
+CLASS_START(Gtk);
+class MarkedCurve : public DrawingArea
+{
+WRAP_CLASS(MarkedCurve,GtkMarkedCurve,GTK_MARKED_CURVE,GTK_IS_MARKED_CURVE,markedcurve,DrawingArea,GtkDrawingArea,GTK_DRAWING_AREA);
+public:
+  WRAP_CTOR_DEFAULT;
+  WRAP_CTOR_CAST;
+  WRAP_DTOR;
+
+  void MarkedCurve::set_vector(const std::vector<gfloat> &vect);
+  void MarkedCurve::get_vector(int veclen, std::vector<gfloat> *vect) const;
+
+  WRAP_METHOD(
+    void gtk_marked_curve_reset(GtkMarkedCurve *),
+    void reset());
+
+  WRAP_METHOD(
+    void gtk_marked_curve_set_gamma(GtkMarkedCurve*,gfloat),
+    void set_gamma(gfloat gamma));
+
+  WRAP_METHOD(
+    void gtk_marked_curve_set_range(GtkMarkedCurve*,gfloat,gfloat,gfloat,gfloat),
+    void set_range(gfloat min_x, gfloat max_x,gfloat min_y, gfloat max_y));
+
+  WRAP_METHOD(
+    void gtk_marked_curve_set_curve_type(GtkMarkedCurve*,GtkCurveType),
+    void set_curve_type(GtkCurveType type));
+
+  WRAP_METHOD(
+    gint gtk_marked_curve_add_markpoint(GtkMarkedCurve*,gfloat,gfloat),
+    gint add_markpoint(gfloat x, gfloat y));
+
+  WRAP_METHOD(
+    void gtk_marked_curve_remove_markpoint(GtkMarkedCurve*, gint),
+    void remove_markpoint(gint which));
+
+  WRAP_METHOD(
+    void gtk_marked_curve_clear_markpoints(GtkMarkedCurve*),
+    void clear_markpoints());
+
+  SIGNAL_SPEC("curve_type_changed",both,void curve_type_changed());
+  SIGNAL_SPEC("curve_mark",both,void curve_mark(guint, GtkMarkedCurveMarkPoint*));
+  SIGNAL_SPEC("curve_cursor_motion",both,void curve_cursor_motion(gfloat,gfloat));
+};
+
+PRIVATE_START;
+#include <gtk--/private/drawingarea_p.h>
+#include <gtk--/private/box_p.h>
+IMPL_START;
+#include <gtkmmext/private/marked_curve_p.h>
+
+namespace Gtk
+{
+
+void
+MarkedCurve::set_vector(const std::vector<gfloat> &vect)
+{
+  gfloat *tmp = new gfloat[vect.size()];
+
+  for(unsigned int i = 0; i < vect.size(); ++i)
+    tmp[i] = vect[i];
+  
+  gtk_marked_curve_set_vector(gtkobj(), vect.size(), tmp);
+  delete[] tmp;
+}
+
+void
+MarkedCurve::get_vector(int veclen, std::vector<gfloat> *vect) const
+{
+  g_return_if_fail(vect != 0);
+
+  gfloat *tmp = new gfloat[veclen];
+ 
+  gtk_marked_curve_get_vector(const_cast<GtkMarkedCurve*>(gtkobj()),
+		       veclen, tmp);
+
+// commented out for 2.7.2    
+//  vect->clear();
+  vect->reserve(veclen);
+  
+  for(unsigned int i = 0; i < vect->size(); ++i)
+    (*vect)[i] = tmp[i];
+  
+  delete[] tmp;
+}
+
+}
+
+DOCUMENTATION_START;
+
+//+ PROPERTIES(Gtk_MarkedCurve)
+//. name: cursor_type
+//. type: gint
+//. get:
+//. set:
+//. desc:
+
+//. name: min_x
+//. type: gfloat
+//. get:
+//. set:
+//. desc:
+
+//. name: max_x
+//. type: gfloat
+//. get:
+//. set:
+//. desc:
+
+//. name: min_y
+//. type: gfloat
+//. get:
+//. set:
+//. desc:
+
+//. name: max_y
+//. type: gfloat
+//. get:
+//. set:
+//. desc:
+
+//. name: pixmap
+//. type: GdkPixmap*
+//. get:
+//. set:
+//. desc:
+
+//. name: curve_type
+//. type: GtkCurveType
+//. get:
+//. set:
+//. desc:
+
+//. name: height
+//. type: gint
+//. get:
+//. set:
+//. desc: (cached) graph height in pixels 
+
+//. name: grab_point
+//. type: gint
+//. get:
+//. set:
+//. desc: point currently grabbed 
+
+//. name: last
+//. type: gint
+//. get:
+//. set:
+//. desc:
+
+//. name: num_points
+//. type: gint
+//. get:
+//. set:
+//. desc: (cached) curve points: 
+
+//. name: point
+//. type: GdkPoint*
+//. get:
+//. set:
+//. desc:
+
+//. name: num_ctlpoints
+//. type: gint
+//. get:
+//. set:
+//. desc: number of control points 

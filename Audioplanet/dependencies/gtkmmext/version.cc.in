@@ -1,0 +1,3 @@
+int gtkmmext_major_version = @LIBGTKMMEXT_MAJOR_VERSION@;
+int gtkmmext_minor_version = @LIBGTKMMEXT_MINOR_VERSION@;
+int gtkmmext_micro_version = @LIBGTKMMEXT_MICRO_VERSION@;

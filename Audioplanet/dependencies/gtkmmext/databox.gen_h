@@ -1,0 +1,221 @@
+/* This is -*- C++ -*- */
+/* A gtk-- wrapper for Roland Bock's GtkDatabox widget  */
+/* Copyright (C) 1999 Oliver Freyd
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+#include <gtk--/box.h>
+#include <gtk--/drawingarea.h>
+#include <gtk--/table.h>
+#include <gdk--/color.h>
+#include <gtkmmext/gtkdatabox.h>
+
+#m4  GTKMM_CONVERSION(`GtkWidget*',`Gtk::Table*',__FP2PD,__RP2PD)
+#m4  GTKMM_CONVERSION(`GtkWidget*',`Gtk::DrawingArea*',__FP2PD,__RP2PD)
+
+CLASS_START(Gtk);
+class Databox: public VBox {
+  WRAP_CLASS(Databox,GtkDatabox,GTK_DATABOX,GTK_IS_DATABOX,databox,VBox,GtkVBox,GTK_VBOX);
+public:
+  WRAP_CTOR_DEFAULT;
+  WRAP_CTOR_CAST;
+  WRAP_DTOR;
+ 
+  WRAP_MEMBER(value,table,table,Gtk::Table*,GtkWidget*);
+  WRAP_MEMBER(value,draw,draw,Gtk::DrawingArea*,GtkWidget*);
+
+  SIGNAL_SPEC("gtk_databox_zoomed",both,void gtk_databox_zoomed(GtkDataboxValue*,GtkDataboxValue*));
+
+  SIGNAL_SPEC("gtk_databox_marked",both,void gtk_databox_marked(GtkDataboxCoord*));
+  SIGNAL_SPEC("gtk_databox_selection_started",both, void gtk_databox_selection_started(GtkDataboxCoord*));
+  SIGNAL_SPEC("gtk_databox_selection_changed",both,void gtk_databox_selection_changed(GtkDataboxCoord*,GtkDataboxCoord*));
+  SIGNAL_SPEC("gtk_databox_selection_stopped",both,void gtk_databox_selection_stopped(GtkDataboxCoord*,GtkDataboxCoord*));
+  SIGNAL_SPEC("gtk_databox_selection_canceled",both,void gtk_databox_selection_canceled());
+ 
+//  WRAP_MEMBER(value,drawingarea,draw,Gtk::DrawingArea*,GtkWidget*);
+  DrawingArea * get_drawingarea(){return &draw_;}
+  const  DrawingArea * get_drawingarea() const {return &draw_;}
+//  static bool isGtkDatabox(Gtk::Object *checkcast);
+
+  WRAP_METHOD(
+     void gtk_databox_show_rulers(GtkDatabox*),        
+     void show_rulers() );
+  WRAP_METHOD(
+     void gtk_databox_hide_rulers(GtkDatabox*),       
+     void hide_rulers()
+ );
+  WRAP_METHOD(
+     void gtk_databox_show_cross(GtkDatabox*),        
+     void show_cross()
+ );
+ WRAP_METHOD(
+  void gtk_databox_hide_cross(GtkDatabox*), 
+  void hide_cross()
+ );
+ WRAP_METHOD(
+    void gtk_databox_show_scrollbars(GtkDatabox*),  
+    void show_scrollbars();
+ );
+ WRAP_METHOD(
+    void gtk_databox_hide_scrollbars(GtkDatabox*), 
+    void hide_scrollbars()
+ );
+ WRAP_METHOD(
+    void gtk_databox_enable_zoom(GtkDatabox*),  
+    void enable_zoom();
+ );
+ WRAP_METHOD(
+    void gtk_databox_disable_zoom(GtkDatabox*), 
+    void disable_zoom()
+ );
+ WRAP_METHOD(
+    void gtk_databox_data_get_value(GtkDatabox*,GtkDataboxCoord,GtkDataboxValue*),
+    void data_get_value( GtkDataboxCoord coord, GtkDataboxValue *value)
+  );
+ WRAP_METHOD(
+  void gtk_databox_data_get_extrema(GtkDatabox*,GtkDataboxValue *,GtkDataboxValue *),
+  void data_get_extrema(GtkDataboxValue *min, GtkDataboxValue *max)
+ );
+ WRAP_METHOD(
+  void gtk_databox_data_get_visible_extrema(GtkDatabox*,GtkDataboxValue *,GtkDataboxValue *),
+  void data_get_visible_extrema(GtkDataboxValue *min, GtkDataboxValue *max)
+   );
+ WRAP_METHOD(
+    void gtk_databox_rescale(GtkDatabox*),
+    void rescale()
+ );
+ WRAP_METHOD(
+     void gtk_databox_rescale_with_values(GtkDatabox*,GtkDataboxValue,GtkDataboxValue),
+     void rescale_with_values(GtkDataboxValue min, GtkDataboxValue max)
+  );
+ WRAP_METHOD( 
+    void gtk_databox_redraw(GtkDatabox*),
+    void redraw()
+   );
+  /*
+ WRAP_METHOD(
+  gint gtk_databox_get_color(GtkDatabox*,gint,GdkColor *),
+  gint get_color(gint index, GdkColor & color)
+   );
+  */
+  /*
+ WRAP_METHOD(
+  gint gtk_databox_set_color(GtkDatabox*,gint,  GdkColor *),     
+  gint set_color(gint index, GdkColor color)
+ );
+  */
+ WRAP_METHOD(
+  gint gtk_databox_get_data_type(GtkDatabox*,gint,GtkDataboxDataType *,guint *),
+  gint get_data_type(gint index,GtkDataboxDataType *type,guint *dot_size)
+  );
+ WRAP_METHOD( 
+   gint gtk_databox_set_data_type(GtkDatabox*,gint,GtkDataboxDataType , guint),
+   gint set_data_type(gint index,GtkDataboxDataType type, guint dot_size)
+ );
+
+ WRAP_METHOD(
+   gint gtk_databox_data_add_x_y(GtkDatabox*,guint , 
+                   gfloat*, 
+                   gfloat*, 
+                   GdkColor,
+		   GtkDataboxDataType, guint),
+ gint data_add_x_y(guint length, 
+                   gfloat *X, 
+                   gfloat *Y, 
+                   GdkColor color,
+                   GtkDataboxDataType type, guint dot_size)
+  );
+
+ WRAP_METHOD(
+  gint gtk_databox_data_add_x(GtkDatabox*,
+			      guint, 
+			      gfloat *, 
+			      gint,
+			      GdkColor,
+			      GtkDataboxDataType,
+			      guint),		 
+  gint data_add_x(guint length, 
+		  gfloat *X, 
+		  gint shared_Y_index,
+		  GdkColor color,
+		  GtkDataboxDataType type,
+		  guint dot_size)
+ );
+
+  WRAP_METHOD(
+    gint gtk_databox_data_add_y(GtkDatabox*,
+				guint,
+				gfloat *,
+				gint ,
+				GdkColor,
+				GtkDataboxDataType,
+				guint),
+    gint data_add_y(guint length,gfloat *Y,gint shared_X_index,
+		    GdkColor color, GtkDataboxDataType type, guint dot_size)
+	  );
+
+ WRAP_METHOD(
+	gint gtk_databox_data_remove(GtkDatabox*,gint),
+     
+	gint data_remove(gint index)
+ );
+ WRAP_METHOD(
+ gint gtk_databox_data_remove_all(GtkDatabox*),
+ gint data_remove_all()
+ );
+ WRAP_METHOD(
+  gint gtk_databox_data_destroy(GtkDatabox*,gint),
+  gint data_destroy(gint index)
+ );
+ WRAP_METHOD(
+	     gint gtk_databox_data_destroy_all(GtkDatabox*),
+	     gint data_destroy_all()
+ );
+
+ 
+ 
+ /* void set_data(guint numsets, GtkDataboxDataType *type,guint *set_points,
+       gfloat **X,gfloat **Y, gfloat **Z);*/	
+
+ WRAP_METHOD(
+  void gtk_databox_data_get_marked_value(GtkDatabox*,GtkDataboxValue *),	
+  void data_get_marked_value(GtkDataboxValue *value)	
+  );
+ WRAP_METHOD(
+	     void gtk_databox_data_get_delta_value(GtkDatabox*,GtkDataboxValue *),
+ void data_get_delta_value(GtkDataboxValue *value)
+ );
+ 
+
+//  const GtkDatabox* gtkobj() const { return GTK_DATABOX(gtkobject); }
+//  GtkDatabox* gtkobj() { return GTK_DATABOX(gtkobject); }
+protected:
+  DrawingArea draw_;
+  
+};
+
+PRIVATE_START;
+#include <gtk--/private/box_p.h>
+#include <gtk--/private/drawingarea_p.h>
+IMPL_START;
+#include <gtkmmext/private/databox_p.h>
+
+DOCUMENTATION_START;
+
+
+
+
+

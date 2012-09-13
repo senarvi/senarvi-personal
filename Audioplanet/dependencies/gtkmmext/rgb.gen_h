@@ -1,0 +1,40 @@
+/* 
+ * Copyright (C) 1999 Paul Barton-Davis
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ * $Id: rgb.gen_h,v 1.1 2007/07/04 07:26:39 seppo Exp $
+ */
+
+#include <gtk--/widget.h>
+#include <gtkmmext/gtkrgb.h>
+
+CLASS_START(Gtk);
+class Rgb : public Widget {
+  WRAP_CLASS(Rgb,GtkRgb,GTK_RGB,GTK_IS_RGB,rgb,Widget,GtkWidget,GTK_WIDGET);
+public:
+public:
+  WRAP_CTOR_DEFAULT;
+  WRAP_CTOR_CAST;
+  WRAP_DTOR;
+};
+
+PRIVATE_START;
+#include <gtk--/private/widget_p.h>
+IMPL_START;
+#include <gtkmmext/private/rgb_p.h>
+
+DOCUMENTATION_START;
+

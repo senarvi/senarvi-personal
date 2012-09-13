@@ -1,0 +1,60 @@
+/* 
+ * Copyright (C) 1999 Paul Barton-Davis
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ * $Id: levelhold.gen_h,v 1.1 2007/07/04 07:26:39 seppo Exp $
+ */
+
+#include <gtk--/widget.h>
+#include <gtkmmext/gtklevelhold.h>
+#include <gtkmmext/rgb.h>
+
+CLASS_START(Gtk);
+class LevelHold : public Rgb
+{
+  WRAP_CLASS(LevelHold,GtkLevelHold,GTK_LEVEL_HOLD,GTK_IS_LEVEL_HOLD,levelhold,Rgb,GtkRgb,GTK_RGB);
+public:
+  WRAP_CTOR_CAST;
+  WRAP_DTOR;
+  explicit LevelHold(unsigned height,unsigned width,
+                     int opts,unsigned steps,
+		     unsigned hold_pixels, float hold_factor);
+
+  WRAP_METHOD(
+    void gtk_level_hold_set(GtkLevelHold*,float),
+    void                set(float));
+
+  WRAP_METHOD(
+    void gtk_level_hold_clear(GtkLevelHold*),
+    void                clear());
+};
+
+PRIVATE_START;
+#include <gtkmmext/private/rgb_p.h>
+IMPL_START;
+#include <gtkmmext/private/levelhold_p.h>
+
+namespace Gtk {
+
+LevelHold::LevelHold(unsigned height, unsigned width, int opts,
+           	     unsigned steps, unsigned hold_pixels, float hold_factor)
+  :     Gtk::Rgb(GTK_RGB(gtk_level_hold_new(height,width,opts,steps,
+		                            hold_pixels, hold_factor)))
+{}
+
+}
+
+DOCUMENTATION_START;

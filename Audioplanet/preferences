@@ -1,0 +1,13 @@
+# This is the system-wide preferences file.  Any change made in this
+# file will affect all users of this system, provided that they are not
+# overriding the default values in their personal preferences file.
+#
+# Lines that start with a '#' are comments.
+#
+# Variable UserDataDir is set to the interned value $HOME/@userdatadir@
+
+Prefix='/usr/local'
+SystemDataDir='@SystemDataDir@'
+PluginSearchPath='@PluginDir@:${UserDataDir}/plug-ins'
+TemporaryStorage='${UserDataDir}/tmp'
+ShowRulers=yes

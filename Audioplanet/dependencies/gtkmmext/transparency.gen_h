@@ -1,0 +1,61 @@
+/* 
+ * Copyright (C) 1999 Paul Barton-Davis
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ * $Id: transparency.gen_h,v 1.1 2007/07/04 07:26:39 seppo Exp $
+ */
+
+#include <gtk--/widget.h>
+#include <gtkmmext/gtktransparency.h>
+
+CLASS_START(Gtk);
+class Transparency : public Gtk::Widget
+{
+  WRAP_CLASS(Transparency,GtkTransparency,GTK_TRANSPARENCY,GTK_IS_TRANSPARENCY,transparency,Widget,GtkWidget,GTK_WIDGET);
+public:
+  WRAP_CTOR_DEFAULT;
+  WRAP_CTOR_CAST;
+  WRAP_DTOR;
+
+  WRAP_METHOD(
+    void gtk_transparency_set_mask_gc(GtkTransparency*,GdkGCValues*,gint),
+    void set_mask_gc(GdkGCValues *values,gint values_mask));
+
+  WRAP_METHOD(
+    void gtk_transparency_size(GtkTransparency*,gint,gint),
+    void size(gint width, gint height));
+
+  WRAP_METHOD(
+    void gtk_transparency_project(GtkTransparency*),
+    void project());
+
+  WRAP_METHOD(
+    void gtk_transparency_wipe(GtkTransparency*),
+    void wipe());
+
+  WRAP_METHOD(
+    GdkWindow* gtk_transparency_buffer(GtkTransparency*),
+    GdkWindow* transparency_buffer());
+};
+
+PRIVATE_START;
+#include <gtk--/private/widget_p.h>
+
+IMPL_START;
+#include <gtkmmext/private/transparency_p.h>
+
+DOCUMENTATION_START;
+
