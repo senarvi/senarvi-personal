@@ -1,0 +1,1 @@
+FRACBITS	=	16

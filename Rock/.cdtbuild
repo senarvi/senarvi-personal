@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?fileVersion 3.1.0?>
+
+<ManagedProjectBuildInfo>
+<project id="rock.cdt.managedbuild.target.gnu.cygwin.exe.1612883878" name="Executable (Gnu on Windows)" projectType="cdt.managedbuild.target.gnu.cygwin.exe">
+<configuration artifactExtension="exe" artifactName="rock" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.cygwin.exe.debug.556479406" name="MinGW" parent="cdt.managedbuild.config.gnu.cygwin.exe.debug">
+<toolChain id="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug.2023710382" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug">
+<builder command="mingw32-make" id="cdt.managedbuild.target.gnu.builder.cygwin.exe.debug.266699158" name="Gnu Make.Debug" superClass="cdt.managedbuild.target.gnu.builder.cygwin.exe.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug.1513157461" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug.758588697" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug.99544030" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug.1398069269" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug"/>
+<macros/>
+</toolChain>
+<resourceConfiguration exclude="true" id="cdt.managedbuild.config.gnu.cygwin.exe.debug.556479406./rock/makesin/makeang.cc" name="makeang.cc" rcbsApplicability="disable" resourcePath="/rock/makesin/makeang.cc" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408./rock/makesin/makeang.cc">
+<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408./rock/makesin/makeang.cc" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408"/>
+</resourceConfiguration>
+<resourceConfiguration exclude="true" id="cdt.managedbuild.config.gnu.cygwin.exe.debug.556479406./rock/makesin/makedept.cc" name="makedept.cc" rcbsApplicability="disable" resourcePath="/rock/makesin/makedept.cc" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408./rock/makesin/makedept.cc">
+<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408./rock/makesin/makedept.cc" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408"/>
+</resourceConfiguration>
+<resourceConfiguration exclude="true" id="cdt.managedbuild.config.gnu.cygwin.exe.debug.556479406./rock/makesin/makesin.cc" name="makesin.cc" rcbsApplicability="disable" resourcePath="/rock/makesin/makesin.cc" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408./rock/makesin/makesin.cc">
+<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408./rock/makesin/makesin.cc" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1255557408"/>
+</resourceConfiguration>
+</configuration>
+</project>
+</ManagedProjectBuildInfo>
