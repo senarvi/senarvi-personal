@@ -1,0 +1,7 @@
+cvs -d:pserver:anonymous@cvs.geotools.sourceforge.net:/cvsroot/geotools login
+cvs -z3 -d:pserver:anonymous@cvs.geotools.sourceforge.net:/cvsroot/geotools co geotools2/geotools-src/cts-coordtrans
+cvs -z3 -d:pserver:anonymous@cvs.geotools.sourceforge.net:/cvsroot/geotools co geotools2/geotools-src/gui
+cvs -z3 -d:pserver:anonymous@cvs.geotools.sourceforge.net:/cvsroot/geotools co geotools2/geotools-src/gcs-coverage
+cvs -z3 -d:pserver:anonymous@cvs.geotools.sourceforge.net:/cvsroot/geotools co geotools2/geotools-src/resources
+cvs -z3 -d:pserver:anonymous@cvs.geotools.sourceforge.net:/cvsroot/geotools co geotools2/geotools-src/opengis
+

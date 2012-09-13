@@ -1,0 +1,1 @@
+/usr/bin/perl makemaplist.pl <GEOKOORD.txt >maplist.txt

@@ -1,0 +1,202 @@
+<html>
+
+<head>
+
+<title>JavaGPS Readme</title>
+
+<body link=blue vlink=purple>
+
+<h1>JavaGPS Readme</h1>
+
+<p >Copyright (C) 2001 Ulrich Walther &lt;<a
+href="mailto:ulrich.walther@codearts.com">ulrich.walther@codearts.com</a>&gt;&nbsp;</p>
+<br>
+
+<h2>Introduction</h2>
+
+<p >
+The JavaGPS package enables Java applications to talk to
+attached GPS devices that conform to the NMEA0183 protocol.</p>
+
+<p >JavaGPS has the following features:</p>
+
+<ul  type=disc>
+ <li  >Auto-detection
+     of attached GPS device</li>
+ <li  >Recording
+     and playback of GPS data<br>
+     Supports raw GPS logs and has an optimised log file format. JavaGPS converts
+     between the two formats on the fly.</li>
+ <li  >VRMI
+     (WhereAmI) API<br>
+     Supports trigger callbacks based on time (i.e. every 5 seconds, user does
+     not move for 60 seconds) or location (i.e. if user enters or leaves a
+     given region).</li>
+ <li  >Management
+     GUI<br>
+     Displays current location in a map, GPS can be set up, log records can be
+     started or logs can be played back and traced graphically.</li>
+</ul>
+
+<p >&nbsp;</p>
+
+<h2>System Requirements&nbsp;</h2>
+
+<ul  type=disc>
+ <li  >Operating
+     System: any that supports Java</li>
+ <li  >Java:
+     JDK or JRE Version &gt;= 1.2 (<a href="http://java.sun.com/">http://java.sun.com</a>)</li>
+ <li  >Java
+     Communications API (<a href="http://java.sun.com/products/javacomm/">http://java.sun.com/products/javacomm/</a>)</li>
+</ul>
+
+<p >Note: In order to be able to communicate with an attached
+GPS over a serial port, the Java Communications API is required. Otherwise, you
+can only use the simulation features (or replay logfiles), and you will get the
+following warning on stdout:</p>
+
+<p><font face="Courier New"><b>Warning! *** Cannot access GPS</b></font></p>
+
+<p>&nbsp;</p>
+
+<h2>Distribution</h2>
+
+<p >The JavaGPS distribution file contains the following files and
+directories:</p>
+
+<table border="0">
+  <tr>
+    <td width="33%" bgcolor="#C0C0C0">
+
+<p ><b>File: run.bat (Win32), run.sh (Unix shell script)</b></p>
+
+    </td>
+    <td width="66%" bgcolor="#FFFF00">This file is used to start up the GPS driver and management GUI.
+      Starts org.iu.gps.MapView</td>
+  </tr>
+  <tr>
+    <td width="33%" bgcolor="#C0C0C0"><b>Folder: gpsdata</b></td>
+    <td width="66%" bgcolor="#FFFF00">The gps user data files (GPS logs, GPS positions, GPS
+configuration files, map images) are stored within this subdirectory. The root
+directory must be visible in the CLASSPATH.</td>
+  </tr>
+  <tr>
+    <td width="33%" bgcolor="#C0C0C0"><b>File: javagps.jar</b></td>
+    <td width="66%" bgcolor="#FFFF00">This Java Archive contains all Java class files necessary to
+run JavaGPS.</td>
+  </tr>
+  <tr>
+    <td width="33%" bgcolor="#C0C0C0"><b>Folder: org/iu/gps</b></td>
+    <td width="66%" bgcolor="#FFFF00">Contains all JavaGPS source files. For detailed information,
+look at the JavaDoc documentation available in the javadoc folder.</td>
+  </tr>
+  <tr>
+    <td width="33%" bgcolor="#C0C0C0"><b>Folder: javadoc</b></td>
+    <td width="66%" bgcolor="#FFFF00">Contains JavaDOC documentation of the
+      JavaGPS org.iu.gps classes.</td>
+  </tr>
+</table>
+<p >&nbsp;</p>
+
+<h2>Running the WhereAmI agent</h2>
+
+<p >Use the run.bat (Win32) or run.sh script to start the JavaGPS
+GUI. The GPS driver reads its configuration from the file gps.cfg (in folder
+gpsdata), if gps.cfg does not exist, it enumerates all serial devices and tries
+to find a GPS device on one of these serial lines. If no GPS device can be
+detected, a default gps.cfg will be created and used in subsequent startups. </p>
+
+<p >Then the GUI comes up (note that the initial location is
+read from file gpsdata/default.gpspos):</p>
+
+<p >&nbsp;</p>
+
+<p ><img border=0 width=535 height=560
+src="./JavaGPS_files/image002.jpg"></p>
+
+<p ></p>
+
+<h3>The GUI has the
+following components:</h3>
+
+<p  
+>-&nbsp;&nbsp;&nbsp;&nbsp; map display area: A bitmap of the current location (if
+available) will be displayed, otherwise the map for the current location is
+retrieved from the <a href="http://www.shellgeostar.com/">www.shellgeostar.com</a>
+site (therefore, it only works with WWW access; otherwise, an error message
+will be shown in stdout after timeout of 60 seconds).<br>
+If you click within the map area, the user’s location will be set to the
+location you clicked on (Follow GPS must be disabled).<br>
+If you want to simulate a movement, do a right-click on the destination location.
+The following message box comes up:<br>
+<br>
+<img border=0 width=370 height=143
+src="./JavaGPS_files/image004.jpg"><br>
+<br>
+To use the currently selected speed (3.0 meters/second in the example), just
+click “Simulate” and the movement starts. If you want to change the speed,
+click on “Setup” and adjust the setting. If you want to set the location
+without moving, click on the “Set w/o Sim” button, or cancel the operation by
+clicking the “Cancel” button.<br style='mso-special-character:line-break'>
+<br style='mso-special-character:line-break'>
+</p>
+
+<p  
+>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/S/W/E buttons: clicking these buttons will move the
+map to the appropriate position.</p>
+
+<p  
+>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Follow GPS: if you enable this checkbox, it will
+display the current position from the GPS device. Additionaly, a new window
+pops up that displays the GPS fields as retrieved from the GPS device.
+IMPORTANT: you cannot set the user’s location or simulate movements if this is
+enabled.<br>
+
+<img border=0 width=281 height=418
+src="./JavaGPS_files/image006.jpg">
+
+<p  
+>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In/Out: Use to zoom in/out of the map.</p>
+
+<p  
+>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compass: Displays the user’s heading. Can also be used
+(if Follow GPS disabled) to set the user’s heading.</p>
+
+<p  
+>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Long/Lat and Gauss-Krüger: Numerical display of the
+current position, in latitude/longitude and Gauss-Krüger coordinate systems.
+You can also change the values within these fields (if Follow GPS is disabled)</p>
+
+<p >&nbsp;</p>
+
+<h4>Description of Application Menus:</h4>
+
+<ul>
+<li><b>File</b><br>
+<ul>
+	<li><b>Load Position:</b> <br>load a location from a .gpspos file<br>
+	<li><b>Store Position:</b> <br>save the current location (and map display settings) in .gpspos file<br>
+	<li><b>Exit:</b> guess what ;)<br>
+</ul>
+
+<li><b>GPS</b><br>
+<ul>
+	<li><b>Setup GPS Receiver:</b> <br>setup the GPS serial line settings<br>
+	<li><b>Log GPS data to file:</b> <br>log the GPS device reportings to a .gpslog file<br>
+	<li><b>Disable logging:</b> <br>stop GPS logging into file<br>
+	<li><b>Replay GPS log:</b> <br>replay a previously logged .gpslog.&nbsp;<br>NOTE: this simulates a
+hardware GPS device, therefore, to be able to view the currently replayed
+location, you have to activate the “Follow GPS” checkbox<br>
+	<li><b>Stop GPS log:</b> <br>stops the replay (this menu item only appears during replay)<br>
+</ul>
+
+<li><b>Coordinate Settings:</b> <br>Sets the earth datum of the GPS
+device.&nbsp;<br>
+ Default: WGS84<br>
+</ul>
+
+</body>
+
+</html>

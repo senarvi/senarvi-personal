@@ -1,0 +1,18 @@
+JavaGPS-1.02 (July 11, 2002)
+
+Updates since 1.01:
+- Corrected ellipsoid used in Gauss-Krueger transformations. Before: European 1950, now: Bessel
+- Modified GUI so it can be edited using JBuilder now. Before: could only be modified with a (very) old Forte version
+- Bug fix in the GPS driver that disallowed connecting to GPS hardware
+- Reenabled loading of external map via mapblast.com (only tested for locations in Germany)
+- Flag that enables/disables terminating via System.exit (now default for standalone)
+- New demo GPS log file that shows tour around Heidelberg castle
+- New default GPS location that also is in the area of the Heidelberg castle
+
+Updates since 1.00:
+- Solved various timing problems when run on Linux (JDK1.3 IBM and SUN
+JDK1.4) that caused crashes/exceptions
+- Changed file open dialogs so that directories are visible
+- Put the GPS driver into verbose mode when recording/playing back GPS logs
+- Added diagnosis for javax.comm, just execute java org.iu.gps.GPSDriver
+- Added output of version information during startup

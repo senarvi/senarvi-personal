@@ -1,0 +1,2 @@
+export CLASSPATH=$CLASSPATH:.:/usr/java/commapi/comm.jar
+java -cp javagps.jar org.iu.gps.MapView
