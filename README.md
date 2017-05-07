@@ -1,2 +1,1 @@
-seppo
-=====
+My old personal toy projects.
