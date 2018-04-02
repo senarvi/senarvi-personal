@@ -1,0 +1,303 @@
+
+                include misc.inc
+                include project.inc
+
+;----------------------------------------------------------------------------
+; Vector move
+;
+; Regs modified:
+;   eax
+
+vmov            macro   source,dest
+                ; x
+                mov     eax,source.x
+                mov     dest.x,eax
+
+                ; y
+                mov     eax,source.y
+                mov     dest.y,eax
+
+                ; z
+                mov     eax,source.z
+                mov     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector addition
+;
+; Regs modified:
+;   eax
+
+vadd            macro   source1,source2,dest
+                ; x
+                mov     eax,source1.x
+                add     eax,source2.x
+                mov     dest.x,eax
+
+                ; y
+                mov     eax,source1.y
+                add     eax,source2.y
+                mov     dest.y,eax
+
+                ; z
+                mov     eax,source1.z
+                add     eax,source2.z
+                mov     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector subtraction
+;
+; Regs modified:
+;   eax
+
+vsub            macro   source1,source2,dest
+                ; x
+                mov     eax,source1.x
+                sub     eax,source2.x
+                mov     dest.x,eax
+
+                ; y
+                mov     eax,source1.y
+                sub     eax,source2.y
+                mov     dest.y,eax
+
+                ; z
+                mov     eax,source1.z
+                sub     eax,source2.z
+                mov     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector integer multiply
+;
+; Regs modified:
+;   eax edx
+
+vintmul         macro   source1,source2,dest
+                ; x
+                intmul  source1.x,source2
+                mov     dest.x,eax
+
+                ; y
+                intmul  source1.y,source2
+                mov     dest.y,eax
+
+                ; z
+                intmul  source1.z,source2
+                mov     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector fixed point multiply
+;
+; Regs modified:
+;   eax edx
+
+vfixmul         macro   source1,source2,dest
+                ; x
+                fixmul  source1.x,source2
+                mov     dest.x,eax
+
+                ; y
+                fixmul  source1.y,source2
+                mov     dest.y,eax
+
+                ; z
+                fixmul  source1.z,source2
+                mov     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector integer divide
+;
+; Regs modified:
+;   eax edx
+
+vintdiv         macro   source1,source2,dest
+                ; x
+                intdiv  source1.x,source2
+                mov     dest.x,eax
+
+                ; y
+                intdiv  source1.y,source2
+                mov     dest.y,eax
+
+                ; z
+                intdiv  source1.z,source2
+                mov     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vecotr fixed point divide
+;
+; Regs modified:
+;   eax edx
+
+vfixdiv         macro   source1,source2,dest
+                ; x
+                fixdiv  source1.x,source2
+                mov     dest.x,eax
+
+                ; y
+                fixdiv  source1.y,source2
+                mov     dest.y,eax
+
+                ; z
+                fixdiv  source1.z,source2
+                mov     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector integer dot product
+;
+; Regs modified:
+;   eax edx
+
+vintdot         macro   source1,source2,dest
+                ; x
+                intmul  source1.x,source2.x
+                mov     dest,eax
+
+                ; y
+                intmul  source1.y,source2.y
+                add     dest,eax
+
+                ; z
+                intmul  source1.z,source2.z
+                add     dest,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector fixed point dot product
+;
+; Regs modified:
+;   eax edx
+
+vfixdot         macro   source1,source2,dest
+                ; x
+                fixmul  source1.x,source2.x
+                mov     dest,eax
+
+                ; y
+                fixmul  source1.y,source2.y
+                add     dest,eax
+
+                ; z
+                fixmul  source1.z,source2.z
+                add     dest,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector integer cross product
+;
+; Regs modified:
+;   eax edx
+
+vintcrs         macro   source1,source2,dest
+                ; x
+                intmul  source1.y,source2.z
+                mov     dest.x,eax
+                intmul  source1.z,source2.y
+                sub     dest.x,eax
+
+                ; y
+                intmul  source1.z,source2.x
+                mov     dest.y,eax
+                intmul  source1.x,source2.z
+                sub     dest.y,eax
+
+                ; z
+                intmul  source1.x,source2.y
+                mov     dest.z,eax
+                intmul  source1.y,source2.x
+                sub     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Vector fixed point cross product
+;
+; Regs modified:
+;   eax edx
+
+vfixcrs         macro   source1,source2,dest
+                ; x
+                fixmul  source1.y,source2.z
+                mov     dest.x,eax
+                fixmul  source1.z,source2.y
+                sub     dest.x,eax
+
+                ; y
+                fixmul  source1.z,source2.x
+                mov     dest.y,eax
+                fixmul  source1.x,source2.z
+                sub     dest.y,eax
+
+                ; z
+                fixmul  source1.x,source2.y
+                mov     dest.z,eax
+                fixmul  source1.y,source2.x
+                sub     dest.z,eax
+                endm
+
+;----------------------------------------------------------------------------
+; Project vector to screen
+;
+; In:
+;   source - 3D vector
+;
+; Out:
+;   dest - 2D vector
+;
+; Regs modified
+;   eax edx
+
+project         macro   source,dest
+                ; x
+                fixdiv  [source.x],[source.z]
+                mov     edx,XMUL
+                imul    edx
+                shrd    eax,edx,FRACBITS
+                add     eax,((GRAPHWIDTH-1)/2) shl FRACBITS
+                mov     [dest.x],eax
+
+                ; y
+                fixdiv  [source.y],[source.z]
+                mov     edx,YMUL
+                imul    edx
+                shrd    eax,edx,FRACBITS
+                add     eax,((GRAPHHEIGHT-1)/2) shl FRACBITS
+                mov     [dest.y],eax
+                endm
+
+;----------------------------------------------------------------------------
+; Face shown in screen
+;
+; In:
+;   source1 - first point in screen
+;   source2 - second point in screen
+;   source3 - third point in screen
+;
+; Out:
+;   greater flag - face is shown
+;
+; Regs modified:
+;   eax ecx edx
+
+fshown          macro   source1,source2,source3
+                mov     eax,[source3.x]  ; x1 * y2
+                sub     eax,[source1.x]
+                mov     edx,[source2.y]
+                sub     edx,[source1.y]
+                imul    edx
+                shrd    eax,edx,FRACBITS
+                mov     ecx,eax
+
+                mov     eax,[source3.y]  ; y1 * x2
+                sub     eax,[source1.y]
+                mov     edx,[source2.x]
+                sub     edx,[source1.x]
+                imul    edx
+                shrd    eax,edx,FRACBITS
+                cmp     ecx,eax
+                endm

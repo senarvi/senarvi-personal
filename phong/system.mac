@@ -1,0 +1,28 @@
+
+;----------------------------------------------------------------------------
+jmp32           macro   selector,label
+                push    selector
+;                push    offset label
+                mov     ax,offset label
+                push    ax
+                retf
+                endm
+
+;----------------------------------------------------------------------------
+endint          macro
+                mov     al,20h
+                out     20h,al
+                endm
+
+;----------------------------------------------------------------------------
+endprog         macro
+                mov     ax,4c00h
+                int     21h
+                endm
+
+;----------------------------------------------------------------------------
+enderr          macro
+                mov     ax,4cffh
+                int     21h
+                endm
+

@@ -1,0 +1,68 @@
+;袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴
+; Declaration macros
+; Copyright (c) Seppo Enarvi  1996,1997
+;袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴
+
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Initialization code
+
+        ideal
+        p486
+        locals
+        jumps
+
+        decpmcode
+        ends
+        deccode16
+        ends
+        deccode32
+        ends
+        decstack
+        ends
+; [fold]  ]
+
+        include "system.mac"
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   decpmcode
+        segment code16 page public use16 'CODE16'
+        assume  cs:code16,ds:code16
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   deccode16
+        segment code16 page public use16 'CODE16'
+        assume  cs:code16,ds:code32
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   deccode32
+        segment code32 page public use32 'CODE32'
+        assume  cs:code32,ds:code32
+        alignstart
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   decdata
+        segment code32 page public use32 'CODE32'
+        aligndata
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   decstack
+        segment stack dword stack use32 'STACK'
+        endm
+; [fold]  ]
+
+; [fold]  6

@@ -1,0 +1,4 @@
+main     + pmode    + init16   + init32   + int      + video    +
+math     + vector   + object   + object2  +
+phong    + texmap   + bumpmap  + flame    + tunnel   + smoke    +
+data     + data2

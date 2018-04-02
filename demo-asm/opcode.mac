@@ -1,0 +1,20 @@
+;ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+; Opcodes
+; Copyright (c) Seppo Enarvi  1996,1997
+;ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+
+
+;ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+; [fold]  [
+; Add r/m32,imm32
+
+        macro   addimm32 dest,lbl
+        db      81h                     ; add r/m 16/32,imm 16/32
+        db      00b shl 6 + 000b shl 3 + 101b
+                ; mod = disp32, opcode = add, r/m = disp32
+        dd      offset dest             ; address
+lbl     dd      ?                       ; immediate
+        endm
+; [fold]  ]
+
+; [fold]  1

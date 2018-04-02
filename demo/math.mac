@@ -1,0 +1,238 @@
+;袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴
+; Mathematic macros
+; Copyright (c) Seppo Enarvi  1996,1997
+;袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴
+
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Integer multiply
+;
+; Registers modified:
+;   eax edx
+
+        macro   intmul source1,source2
+        mov     eax,source1
+        imul    source2
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Integer divide
+;
+; Registers modified:
+;   eax edx
+
+        macro   intdiv source1,source2
+        mov     eax,source1
+        cdq
+        idiv    source2
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Fixed point multiply
+;
+; Regs modified
+;   eax edx
+
+        macro   fixmul source1,source2
+        intmul  <source1>,<source2>
+        shrd    eax,edx,FRACBITS
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Fixed point divide
+;
+; Registers modified:
+;   eax edx
+
+        macro   fixdiv source1,source2
+        mov     eax,source1
+        mov     edx,eax
+        sal     eax,FRACBITS
+        sar     edx,32-FRACBITS
+        idiv    source2
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Constant multiply
+
+        macro   cmul dest,source,temp
+        if      source eq 2
+        add     dest,dest
+
+        elseif  source eq 3
+        lea     dest,[dest*2+dest]
+
+        elseif  source eq 4
+        lea     dest,[dest*4]
+
+        elseif  source eq 5
+        lea     dest,[dest*4+dest]
+
+        elseif  source eq 6
+        cmul    <dest>,3
+        cmul    <dest>,2
+
+        elseif  source eq 7
+        mov     temp,dest
+        cmul    <temp>,6
+        add     dest,temp
+
+        elseif  source eq 8
+        lea     dest,[dest*8]
+
+        elseif  source eq 9
+        lea     dest,[dest*8+dest]
+
+        elseif  source eq 10
+        cmul    <dest>,5
+        cmul    <dest>,2
+
+        elseif  source eq 11
+        mov     temp,dest
+        cmul    <temp>,10
+        add     dest,temp
+
+        elseif  source eq 12
+        cmul    <dest>,4
+        cmul    <dest>,3
+
+        elseif  source eq 13
+        mov     temp,dest
+        cmul    <temp>,12
+        add     dest,temp
+
+        elseif  source eq 14
+        cmul    <dest>,7,<temp>
+        cmul    <dest>,2
+
+        elseif  source eq 15
+        cmul    <dest>,5
+        cmul    <dest>,3
+
+        elseif  source eq 16
+        sal     dest,4
+
+        elseif  source eq 24
+        cmul    <dest>,8
+        cmul    <dest>,3
+
+        elseif  source eq 32
+        sal     dest,5
+
+        elseif  source eq 64
+        sal     dest,6
+
+        elseif  source eq 80
+        cmul    <dest>,16
+        cmul    <dest>,5
+
+        elseif  source eq 128
+        sal     dest,7
+
+        elseif  source eq 256
+        sal     dest,8
+
+        elseif  source eq 320
+        cmul    <dest>,64
+        cmul    <dest>,5
+
+        elseif  source eq 512
+        sal     dest,9
+
+        elseif  source eq 1024
+        sal     dest,10
+
+        elseif  source eq 2048
+        sal     dest,11
+
+        elseif  source eq 4096
+        sal     dest,12
+
+        else
+        if1
+        display "Multiply not defined for constant &source"
+        endif
+        err
+        endif
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Constant divide
+
+        macro   cdiv dest,source,temp
+        if      source eq 2h
+        sar     dest,1
+
+        elseif  source eq 4h
+        sar     dest,2
+
+        elseif  source eq 8h
+        sar     dest,3
+
+        elseif  source eq 10h
+        sar     dest,4
+
+        elseif  source eq 20h
+        sar     dest,5
+
+        elseif  source eq 40h
+        sar     dest,6
+
+        elseif  source eq 80h
+        sar     dest,7
+
+        elseif  source eq 100h
+        sar     dest,8
+
+        elseif  source eq 200h
+        sar     dest,9
+
+        elseif  source eq 400h
+        sar     dest,10
+
+        elseif  source eq 800h
+        sar     dest,11
+
+        elseif  source eq 1000h
+        sar     dest,12
+
+        elseif  source eq 2000h
+        sar     dest,13
+
+        elseif  source eq 4000h
+        sar     dest,14
+
+        elseif  source eq 8000h
+        sar     dest,15
+
+        elseif  source eq 10000h
+        sar     dest,16
+        endif
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Change fractional part size
+
+        macro   chgfrac src,orgfrac,newfrac
+        if      newfrac gt orgfrac
+        sal     src,newfrac-orgfrac
+        elseif  newfrac lt orgfrac
+        sar     src,orgfrac-newfrac
+        endif
+        endm
+; [fold]  ]
+
+; [fold]  7

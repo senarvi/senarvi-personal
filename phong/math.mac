@@ -1,0 +1,129 @@
+
+;----------------------------------------------------------------------------
+intdiv          macro   source1,source2
+                mov     eax,source1
+                cdq
+                idiv    source2
+                endm
+
+;----------------------------------------------------------------------------
+; Regs modified:
+;   eax edx
+
+intmul          macro   source1,source2
+                mov     eax,source1
+                imul    source2
+                endm
+
+;----------------------------------------------------------------------------
+fixdiv          macro   source1,source2
+                xor     eax,eax
+                mov     edx,source1
+                shrd    eax,edx,32-FRACBITS
+                sar     edx,32-FRACBITS
+                idiv    source2
+                endm
+
+;----------------------------------------------------------------------------
+; Fixed point multiplication
+;
+; Regs modified
+;   eax edx
+
+fixmul          macro   source1,source2
+                intmul  source1,source2
+                shrd    eax,edx,FRACBITS
+                endm
+
+;----------------------------------------------------------------------------
+cmul            macro   dest,source
+                if      source eq 2
+                add     dest,dest
+
+                elseif  source eq 3
+                lea     dest,[dest*2+dest]
+
+                elseif  source eq 4
+                lea     dest,[dest*4]
+
+                elseif  source eq 5
+                lea     dest,[dest*4+dest]
+
+                elseif  source eq 6
+                cmul    dest,3
+                cmul    dest,2
+
+                elseif  source eq 8
+                lea     dest,[dest*8]
+
+                elseif  source eq 9
+                lea     dest,[dest*8+dest]
+
+                elseif  source eq 10
+                cmul    dest,5
+                cmul    dest,2
+
+                elseif  source eq 12
+                cmul    dest,4
+                cmul    dest,3
+
+                elseif  source eq 15
+                cmul    dest,5
+                cmul    dest,3
+
+                elseif  source eq 16
+                sal     dest,4
+
+                elseif  source eq 32
+                sal     dest,5
+
+                elseif  source eq 64
+                sal     dest,6
+
+                elseif  source eq 80
+                cmul    dest,16
+                cmul    dest,5
+
+                elseif  source eq 128
+                sal     dest,7
+
+                elseif  source eq 256
+                sal     dest,8
+
+                elseif  source eq 320
+                cmul    dest,64
+                cmul    dest,5
+                endif
+                endm
+
+;----------------------------------------------------------------------------
+cdiv            macro   dest,source
+                if      source eq 2
+                sar     dest,1
+
+                elseif  source eq 4
+                sar     dest,2
+
+                elseif  source eq 8
+                sar     dest,3
+
+                elseif  source eq 16
+                sar     dest,4
+
+                elseif  source eq 32
+                sar     dest,5
+
+                elseif  source eq 64
+                sar     dest,6
+
+                elseif  source eq 128
+                sar     dest,7
+
+                elseif  source eq 256
+                sar     dest,8
+
+                elseif  source eq 16384
+                sar     dest,14
+                endif
+                endm
+

@@ -1,0 +1,55 @@
+;ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+; Sound Blaster macros
+; Copyright (c) Seppo Enarvi  1996,1997
+;ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+
+
+;ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+; [fold]  [
+; Send a byte to the DSP
+;
+; In:
+;   dx - 2xCh
+;   source - byte
+;
+; Registers modified:
+;   al
+
+        macro   writedsp source
+        local   @@busy
+@@busy:
+        in      al,dx
+        or      al,al
+        js      @@busy
+
+        mov     al,source
+        out     dx,al
+        endm
+; [fold]  ]
+
+;ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+; [fold]  [
+; Read a byte from the DSP
+;
+; In:
+;   dx - 2xEh
+;
+; Out:
+;   al - byte
+;
+; Registers modified:
+;   al dl
+
+        macro   readdsp
+        local   @@busy
+@@busy:
+        in      al,dx
+        or      al,al
+        jns     @@busy
+
+        sub     dl,4
+        in      al,dx
+        endm
+; [fold]  ]
+
+; [fold]  2

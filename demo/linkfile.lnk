@@ -1,0 +1,6 @@
+file main_c,int_a,pit_c,video_a,video_c,math_a,math_c,
+     tunnel_a,tunnel_c,bump_a,bump_c,flame_a,
+     object_c,vector_a,vector_c,texmap_a,
+     data_a,data2_a,meshdata
+
+name demo

@@ -1,0 +1,94 @@
+
+        include "pit.inc"
+        include "int.inc"
+        include "system.inc"
+        include "pmode.inc"
+        include "init.inc"
+
+
+;----------------------------------------------------------------------------
+; [fold]  [
+; Set interrupt vector
+;
+; Regs modified:
+;   none
+
+        macro   setint intnum,inthandler
+        pushad
+
+        mov     eax,DPMI_SETINTVEC
+        mov     bl,intnum
+        mov     cx,[word c32sel]
+        mov     edx,offset inthandler
+        cli
+        int     DPMI_INT
+        sti
+
+        popad
+        endm
+; [fold]  ]
+
+;----------------------------------------------------------------------------
+; [fold]  [
+; Initialize keyboard
+;
+; Regs modified:
+;   none
+
+        macro   initkb kbhandler
+        pushad
+        setint  KBINT,kbhandler
+
+        in      al,21h
+        and     al,IRQ1ON
+        out     21h,al
+        popad
+        endm
+; [fold]  ]
+
+;----------------------------------------------------------------------------
+; [fold]  [
+; Initialize timer
+;
+; Regs modified:
+;   none
+
+        macro   inittimer pithandler,timerfreq
+        pushad
+        setint  TIMERINT,pithandler
+
+        in      al,21h
+        and     al,IRQ0ON
+        out     21h,al
+
+        mov     al,CONTROLW
+        out     43h,al
+        mov     al,(PITFREQ/timerfreq) and 00ffh
+        out     40h,al
+        mov     al,(PITFREQ/timerfreq) shr 8
+        out     40h,al
+        popad
+        endm
+; [fold]  ]
+
+;----------------------------------------------------------------------------
+; [fold]  [
+; Reset timer
+;
+; Regs modified:
+;   none
+
+        macro   resettimer
+        pushad
+
+        mov     al,CONTROLW
+        out     43h,al
+        xor     al,al
+        out     40h,al
+        out     40h,al
+
+        popad
+        endm
+; [fold]  ]
+
+; [fold]  4

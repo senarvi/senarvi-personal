@@ -1,0 +1,183 @@
+;袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴
+; Video macros
+; Copyright (c) Seppo Enarvi  1996,1997
+;袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴
+
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   settext
+        pushad
+
+        mov     eax,DPMI_RMINT
+        mov     ebx,BIOS_VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rmregs.ax],TXT_MODE
+        xor     ecx,ecx
+        int     DPMI_INT
+        mov     [text_cursor.x],0
+        mov     [text_cursor.y],0
+
+        popad
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   setgraph
+        pushad
+
+        mov     eax,DPMI_RMINT
+        mov     ebx,BIOS_VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rmregs.ax],GR_MODE
+        xor     ecx,ecx
+        int     DPMI_INT
+
+        popad
+        endm
+
+        macro   set50hz
+        mov     dx,03d4h
+        mov     al,011h
+        out     dx,al
+        mov     dx,03d5h
+        in      al,dx
+        and     al,07fh
+        out     dx,al
+        mov     dx,03c2h
+        mov     al,063h
+        out     dx,al
+
+        mov     dx,3d4h
+        mov     ax,6000h
+        out     dx,ax
+        mov     ax,4f01h
+        out     dx,ax
+        mov     ax,5002h
+        out     dx,ax
+        mov     ax,8203h
+        out     dx,ax
+        mov     ax,5404h
+        out     dx,ax
+        mov     ax,8005h
+        out     dx,ax
+        mov     ax,6f06h
+        out     dx,ax
+        mov     ax,3e07h
+        out     dx,ax
+        mov     ax,0008h
+        out     dx,ax
+        mov     ax,4109h
+        out     dx,ax
+        mov     ax,0f610h
+        out     dx,ax
+        mov     ax,8811h
+        out     dx,ax
+        mov     ax,8f12h
+        out     dx,ax
+        mov     ax,2813h
+        out     dx,ax
+        mov     ax,4014h
+        out     dx,ax
+        mov     ax,9015h
+        out     dx,ax
+        mov     ax,6c16h
+        out     dx,ax
+        mov     ax,0a317h
+        out     dx,ax
+
+        mov     dx,3c4h
+        mov     ax,0101h
+        out     dx,ax
+        mov     ax,0003h
+        out     dx,ax
+        mov     ax,0e04h
+        out     dx,ax
+
+        mov     dx,3cEh
+        mov     ax,4005h
+        out     dx,ax
+        mov     ax,0506h
+        out     dx,ax
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   hidecursor
+        pushad
+
+        mov     eax,DPMI_RMINT
+        mov     ebx,BIOS_VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rmregs.ah],BIOS_SETCURSORTYPE
+        mov     [rmregs.cx],0100h
+        xor     ecx,ecx
+        int     DPMI_INT
+
+        popad
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   showcursor
+        pushad
+
+        mov     eax,DPMI_RMINT
+        mov     ebx,BIOS_VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rmregs.ah],BIOS_SETCURSORTYPE
+        mov     [rmregs.cx],0304h
+        xor     ecx,ecx
+        int     DPMI_INT
+
+        popad
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   setcursorpos
+        pushad
+
+        mov     eax,DPMI_RMINT
+        mov     ebx,BIOS_VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rmregs.ah],BIOS_SETCURSORPOS
+        mov     [rmregs.bh],0
+        mov     edx,[text_cursor.x]
+        mov     [rmregs.dl],dl
+        mov     edx,[text_cursor.y]
+        mov     [rmregs.dh],dl
+        xor     ecx,ecx
+        int     DPMI_INT
+
+        popad
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+        macro   getcursorpos
+        pushad
+
+        mov     eax,DPMI_RMINT
+        mov     ebx,BIOS_VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rmregs.ah],BIOS_GETCURSORPOS
+        mov     [rmregs.bh],0
+        xor     ecx,ecx
+        int     DPMI_INT
+        xor     eax,eax
+        mov     al,[rmregs.dl]
+        mov     [text_cursor.x],eax
+        mov     al,[rmregs.dh]
+        mov     [text_cursor.y],eax
+
+        popad
+        endm
+; [fold]  ]
+
+; [fold]  6

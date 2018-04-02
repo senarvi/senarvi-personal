@@ -1,0 +1,131 @@
+;袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴
+; System level macros
+; Copyright (c) Seppo Enarvi  1996,1997
+;袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴袴
+
+        include "system.inc"
+
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Jump to a 32-bit segment
+;
+; Registers modified:
+;   eax
+
+        macro   jmp32 selector,label
+        push    selector
+        push    offset label
+        db      OPERAND_SIZE            ; Use a 32-bit offset
+        retf
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Acknowledge that interrupt has ended
+;
+; Regs modified:
+;   al
+
+        macro   endint
+        mov     al,20h
+        out     20h,al
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Output byte to I/O port
+
+        macro   outb
+        out     dx,al
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Output word to I/O port
+
+        macro   outw
+        out     dx,al
+        mov     al,ah
+        out     dx,al
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Output dword to I/O port
+
+        macro   outdw
+        out     dx,al
+        mov     al,ah
+        out     dx,al
+        shr     eax,16
+        out     dx,al
+        mov     al,ah
+        out     dx,al
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; End program
+
+        macro   endprog
+        mov     eax,4c00h
+        int     21h
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; End program with errorlevel 255
+
+        macro   enderr
+        mov     eax,4cffh
+        int     21h
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Align code
+
+        macro   aligncode
+        local   @@alignstart,@@alignend
+        masm
+        locals
+
+        ; Would it be wice to jump over alignment
+@@alignstart:
+        if      offset @@alignend - offset @@alignstart gt 2
+        jmp     @@alignend
+        endif
+        align   32                      ; 16 bytes for 486
+@@alignend:
+
+        ideal
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Align code start
+
+        macro   alignstart
+        align   32
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Align data
+
+        macro   aligndata
+        align   dword
+        endm
+; [fold]  ]
+
+; [fold]  10

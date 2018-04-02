@@ -1,0 +1,38 @@
+;ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+; Interrupt macros
+; Copyright (c) Seppo Enarvi  1996,1997
+;ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+
+
+;ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+; [fold]  [
+; Initialize PC Internal Timer
+
+        macro   setpitfreq freq
+        push    eax
+        mov     al,CONTROLW
+        out     43h,al
+        mov     al,(PITFREQ/freq) and 00ffh
+        out     40h,al
+        mov     al,(PITFREQ/freq) shr 8
+        out     40h,al
+        pop     eax
+        endm
+; [fold]  ]
+
+;ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+; [fold]  [
+; Reset PC Internal Timer
+
+        macro   resetpitfreq
+        push    eax
+        mov     al,CONTROLW
+        out     43h,al
+        xor     al,al
+        out     40h,al
+        out     40h,al
+        pop     eax
+        endm
+; [fold]  ]
+
+; [fold]  2

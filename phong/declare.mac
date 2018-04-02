@@ -1,0 +1,49 @@
+
+;----------------------------------------------------------------------------
+decstart        macro
+                .486p
+                locals
+                endm
+
+;----------------------------------------------------------------------------
+decpmcode       macro
+pmcode          segment para public use16 'CODE16'
+                assume  cs:pmcode,ds:pmcode
+                endm
+
+;----------------------------------------------------------------------------
+endpmcode       macro
+pmcode          ends
+                endm
+
+;----------------------------------------------------------------------------
+deccode16       macro
+code16          segment para public use16 'CODE16'
+                assume  cs:code16,ds:code32
+                endm
+
+;----------------------------------------------------------------------------
+endcode16       macro
+code16          ends
+                endm
+
+;----------------------------------------------------------------------------
+deccode32       macro
+code32          segment para public use32 'CODE32'
+                assume  cs:code32,ds:code32
+                endm
+
+;----------------------------------------------------------------------------
+endcode32       macro
+code32          ends
+                endm
+
+;----------------------------------------------------------------------------
+decstack        macro
+stack           segment para stack use16 'STACK'
+                endm
+
+;----------------------------------------------------------------------------
+endstack        macro
+stack           ends
+                endm

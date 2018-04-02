@@ -1,0 +1,66 @@
+
+                include math.mac
+
+                extrn   sintable:dword,costable:dword
+                include sin.inc
+                include misc.inc
+
+
+;----------------------------------------------------------------------------
+; Rotate vector
+;
+; Regs modified:
+;   eax ecx edx ebx ebp
+;----------------------------------------------------------------------------
+
+rotv            macro   source,angle,dest
+                ROTV_FRACBITS=FRACBITS
+                FRACBITS=SIN_FRACBITS
+
+                mov     ebx,angle.a
+
+                ; x
+                fixmul  source.x,sintable[ebx*SIN_TYPE]
+                mov     ebp,eax
+                fixmul  source.y,costable[ebx*SIN_TYPE]
+                mov     ecx,eax
+                sub     eax,ebp
+                mov     dest.x,eax
+
+
+                mov     eax,source.x
+                add     eax,source.y
+                mov     edx,costable[ebx*SIN_TYPE]
+                add     edx,sintable[ebx*SIN_TYPE]
+                imul    edx
+                shrd    eax,edx,FRACBITS
+                sub     eax,ebp
+                sub     eax,ecx
+                mov     ebp,eax
+
+                mov     ebx,angle.b
+
+                ; y
+                mov     eax,source.z
+                imul    costable[ebx*SIN_TYPE]
+                neg     eax
+                mov     ecx,eax
+                mov     eax,sintable[ebx*SIN_TYPE]
+                imul    ebp
+                sub     ecx,eax
+                sar     ecx,FRACBITS
+                mov     dest.y,ecx
+
+                ; z
+                mov     eax,source.z
+                imul    sintable[ebx*SIN_TYPE]
+                mov     ecx,eax
+                mov     eax,costable[ebx*SIN_TYPE]
+                imul    ebp
+                neg     eax
+                add     eax,ecx
+                sar     eax,FRACBITS
+                mov     dest.z,eax
+
+                FRACBITS=ROTV_FRACBITS
+                endm

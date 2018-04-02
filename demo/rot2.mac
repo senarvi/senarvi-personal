@@ -1,0 +1,129 @@
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; Rotations around two spherical axes
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Vector rotate
+;
+; In:
+;   source:svect
+;   angle:sangle
+;
+; Out:
+;   dest:svect
+;
+; Registers modified:
+;   eax ecx edx ebx ebp
+
+        macro   vrot source,angle,dest
+        ORG_FRACBITS=FRACBITS
+        FRACBITS=SIN_FRACBITS
+
+        mov     ebx,[angle.a]
+
+        ; x
+        fixmul  <[source.x]>,<[sintable + ebx*dword]>
+        mov     ebp,eax  ; x sina
+        fixmul  <[source.y]>,<[costable + ebx*dword]>
+        mov     ecx,eax  ; y cosa
+        sub     eax,ebp
+        mov     [dest.x],eax  ; y cosa - x sina
+
+        mov     eax,[source.x]
+        add     eax,[source.y]  ; x + y
+        mov     edx,[costable + ebx*dword]
+        add     edx,[sintable + ebx*dword]
+        imul    edx  ; * (cosa + sina)
+        shrd    eax,edx,FRACBITS
+        sub     eax,ebp  ; - x sina
+        sub     eax,ecx  ; - y cosa
+        mov     ebp,eax  ; = x cosa y sina
+
+        mov     ebx,[angle.b]
+
+        ; y
+        mov     eax,[source.z]
+        imul    [costable + ebx*dword]
+        mov     ecx,eax  ; z cosb
+        mov     eax,[sintable + ebx*dword]
+        imul    ebp  ; sinb x cosa y sina
+        sub     ecx,eax
+        sar     ecx,FRACBITS
+        mov     [dest.y],ecx  ; z cosb - sinb x cosa y sina
+
+        ; z
+        mov     eax,[source.z]
+        imul    [sintable + ebx*dword]
+        mov     ecx,eax  ; z sinb
+        mov     eax,[costable + ebx*dword]
+        imul    ebp
+        add     eax,ecx  ; + cosb x cosa y sina
+        sar     eax,FRACBITS
+        mov     ecx,[angle.r]  ; r
+        sub     ecx,eax
+        mov     [dest.z],ecx  ; r - z sinb - cosb x cosa y sina
+
+        FRACBITS=ORG_FRACBITS
+        endm
+; [fold]  ]
+
+;컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+; [fold]  [
+; Rotate x and y coordinates and put them into mapping coordinates of dest
+; (useable for environment mapping)
+;
+; In:
+;   source:svect
+;   angle:sangle
+;
+; Out:
+;   dest:smap
+;
+; Regs modified:
+;   eax ecx edx ebx ebp
+
+        macro   vrotxy source,angle,dest
+        ORG_FRACBITS=FRACBITS
+        FRACBITS=SIN_FRACBITS
+
+        mov     ebx,[angle.a]
+
+        ; x
+        fixmul  <[source.x]>,[sintable+ebx*dword]
+        mov     ebp,eax
+        fixmul  <[source.y]>,[costable+ebx*dword]
+        mov     ecx,eax
+        sub     eax,ebp
+        mov     [dest.u],eax
+
+
+        mov     eax,[source.x]
+        add     eax,[source.y]
+        mov     edx,[costable+ebx*dword]
+        add     edx,[sintable+ebx*dword]
+        imul    edx
+        shrd    eax,edx,FRACBITS
+        sub     eax,ebp
+        sub     eax,ecx
+        mov     ebp,eax
+
+        mov     ebx,[angle.b]
+
+        ; y
+        mov     eax,[source.z]
+        imul    [costable+ebx*dword]
+        neg     eax
+        mov     ecx,eax
+        mov     eax,[sintable+ebx*dword]
+        imul    ebp
+        sub     ecx,eax
+        sar     ecx,FRACBITS
+        mov     [dest.v],ecx
+
+        FRACBITS=ORG_FRACBITS
+        endm
+; [fold]  ]
+
+; [fold]  2

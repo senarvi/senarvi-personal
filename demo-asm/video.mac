@@ -1,0 +1,127 @@
+
+        include "video.inc"
+        include "pmode.inc"
+
+
+;----------------------------------------------------------------------------
+; [fold]  [
+        macro   settext
+        pushad
+
+        mov     ax,DPMI_RMINT
+        mov     bx,VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rm_ax],TEXTMODE
+        xor     cx,cx
+        int     DPMI_INT
+        mov     [textx],0
+        mov     [texty],0
+
+        popad
+        endm
+; [fold]  ]
+
+;----------------------------------------------------------------------------
+; [fold]  [
+        macro   setgraph
+        mov     ax,DPMI_RMINT
+        mov     bx,VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rm_ax],GRAPHMODE
+        xor     cx,cx
+        int     DPMI_INT
+        endm
+
+        macro   set50hz
+        mov     dx,03d4h
+        mov     al,011h
+        out     dx,al
+        mov     dx,03d5h
+        in      al,dx
+        and     al,07fh
+        out     dx,al
+        mov     dx,03c2h
+        mov     al,063h
+        out     dx,al
+
+        mov     dx,3d4h
+        mov     ax,6000h
+        out     dx,ax
+        mov     ax,4f01h
+        out     dx,ax
+        mov     ax,5002h
+        out     dx,ax
+        mov     ax,8203h
+        out     dx,ax
+        mov     ax,5404h
+        out     dx,ax
+        mov     ax,8005h
+        out     dx,ax
+        mov     ax,6f06h
+        out     dx,ax
+        mov     ax,3e07h
+        out     dx,ax
+        mov     ax,0008h
+        out     dx,ax
+        mov     ax,4109h
+        out     dx,ax
+        mov     ax,0f610h
+        out     dx,ax
+        mov     ax,8811h
+        out     dx,ax
+        mov     ax,8f12h
+        out     dx,ax
+        mov     ax,2813h
+        out     dx,ax
+        mov     ax,4014h
+        out     dx,ax
+        mov     ax,9015h
+        out     dx,ax
+        mov     ax,6c16h
+        out     dx,ax
+        mov     ax,0a317h
+        out     dx,ax
+
+        mov     dx,3c4h
+        mov     ax,0101h
+        out     dx,ax
+        mov     ax,0003h
+        out     dx,ax
+        mov     ax,0e04h
+        out     dx,ax
+
+        mov     dx,3cEh
+        mov     ax,4005h
+        out     dx,ax
+        mov     ax,0506h
+        out     dx,ax
+        endm
+; [fold]  ]
+
+;----------------------------------------------------------------------------
+; [fold]  [
+        macro   hidecursor
+        mov     ax,DPMI_RMINT
+        mov     bx,VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rm_ah],01h
+        mov     [rm_cx],0100h
+        xor     cx,cx
+        int     DPMI_INT
+        endm
+; [fold]  ]
+
+;----------------------------------------------------------------------------
+; [fold]  [
+        macro   showcursor
+        mov     ax,DPMI_RMINT
+        mov     bx,VIDEOINT
+        mov     edi,offset rmregs
+        mov     [rm_ah],01h
+        mov     [rm_cx],0304h
+        xor     cx,cx
+        int     DPMI_INT
+        endm
+; [fold]  ]
+
+; [fold]  4

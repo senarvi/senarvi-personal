@@ -1,0 +1,101 @@
+
+                include pit.inc
+                include int.inc
+CONTROLW        equ     PITSEL0+PITLOADALL+PITMODE2+PITBIN16
+
+
+                include int.inc
+                include pm.inc
+
+                extrn   okbint:far,opitint:far
+                extrn   kbint:near,pitint:near
+
+
+;----------------------------------------------------------------------------
+; Regs modified:
+; ax
+; cx
+; edx
+; bl
+
+initkb          macro
+                mov     ax,PM_GETINTVEC
+                mov     bl,KBINT
+                int     PMINT
+                mov     word ptr okbint[SEL],cx
+                mov     dword ptr okbint[OFF],edx
+
+                mov     ax,PM_SETINTVEC
+                mov     bl,KBINT
+                mov     cx,cs
+                mov     edx,offset kbint
+                int     PMINT
+
+                in      al,21h
+                and     al,IRQ1ON
+                out     21h,al
+                endm
+
+;----------------------------------------------------------------------------
+; Regs modified:
+; ax
+; cx
+; edx
+; bl
+
+resetkb         macro
+                mov     ax,PM_SETINTVEC
+                mov     bl,KBINT
+                mov     cx,seg okbint
+                mov     edx,offset okbint
+                int     PMINT
+                endm
+
+;----------------------------------------------------------------------------
+; Regs modified:
+; ax
+; cx
+; edx
+; bl
+
+inittimer       macro
+                mov     ax,PM_GETINTVEC
+                mov     bl,TIMERINT
+                int     PMINT
+                mov     word ptr opitint[SEL],cx
+                mov     dword ptr opitint[OFF],edx
+
+                mov     ax,PM_SETINTVEC
+                mov     bl,TIMERINT
+                mov     cx,cs
+                mov     edx,offset pitint
+                int     PMINT
+
+                mov     al,CONTROLW
+                out     43h,al
+                mov     al,COUNTER and 00ffh
+                out     40h,al
+                mov     al,COUNTER shr 8
+                out     40h,al
+                endm
+
+;----------------------------------------------------------------------------
+; Regs modified:
+; ax
+; cx
+; edx
+; bl
+
+resettimer      macro
+                mov     al,CONTROLW
+                out     43h,al
+                xor     al,al
+                out     40h,al
+                out     40h,al
+
+                mov     ax,PM_SETINTVEC
+                mov     bl,TIMERINT
+                mov     cx,seg opitint
+                mov     edx,offset opitint
+                int     PMINT
+                endm
